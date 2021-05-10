@@ -1,15 +1,13 @@
 <template>
   <div>
-
+    navfooter
   </div>
 </template>
 
 <script>
-  export default {
-    name: "nav-footer"
-  }
+export default {
+  name: 'nav-footer',
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

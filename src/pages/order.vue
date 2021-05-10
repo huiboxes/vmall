@@ -1,13 +1,21 @@
 <template>
   <div>
-    <nav-header></nav-header>
+    <order-header />
     <router-view />
-    <nav-footer></nav-footer>
+    <nav-footer />
   </div>
 </template>
 
 <script>
-export default {}
+import OrderHeader from '@/components/OrderHeader'
+import NavFooter from '@/components/NavFooter'
+export default {
+  name: 'order',
+  components: {
+    OrderHeader,
+    NavFooter,
+  },
+}
 </script>
 
 <style lang="scss" scoped></style>
