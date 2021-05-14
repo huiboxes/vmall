@@ -6,11 +6,7 @@ import { Message } from 'element-ui'
 import VueLazyLoad from 'vue-lazyload'
 
 import App from './App.vue'
-
-const mock = false;
-if(mock){
-  require('./mock/api');
-}
+import './plugins/element.js'
 
 axios.defaults.baseURL = '/api'
 axios.defaults.timeout = 8000
@@ -20,13 +16,14 @@ axios.interceptors.response.use(
     let res = response.data
     if (res.status == 0) {
       return res.data
-    } else if (res.status == -1) {
-      window.location.href = '/#/login'
-      return Promise.reject(res)
-    } else {
-      Message.warning(res.msg)
-      return Promise.reject(res)
     }
+    // else if (res.status == -1) {
+    //   window.location.href = '/#/login'
+    //   return Promise.reject(res)
+    // } else {
+    //   // Message.warning(res.msg)
+    //   return Promise.reject(res)
+    // }
   },
   error => {
     let res = error.response
@@ -35,8 +32,20 @@ axios.interceptors.response.use(
   }
 )
 
+axios.interceptors.request.use(
+  config => {
+    const token = 'token'
+    if (token) {
+      config.headers.common['Authorization'] = token
+    }
+    return config
+  },
+  () => {
+    return Promise.reject(console.error())
+  }
+)
+
 Vue.use(VueAxios, axios)
-Vue.prototype.$message = Message
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg',
 })

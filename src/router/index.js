@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/home'
 import Index from '@/pages/index'
-Vue.use(Router)
 
-export default new Router({
+Vue.use(Router)
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -38,6 +38,9 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component: () => import('@/pages/cart.vue'),
+      meta: {
+        auth: true,
+      },
     },
     {
       path: '/order',
@@ -48,6 +51,9 @@ export default new Router({
           path: 'list',
           name: 'order-list',
           component: () => import('@/pages/orderList.vue'),
+          require: {
+            auth: true,
+          },
         },
         {
           path: 'confirm',
@@ -68,3 +74,23 @@ export default new Router({
     },
   ],
 })
+
+// router.beforeEach((to, from, next) => {
+//   let isLogin
+//   if (isLogin) {
+//     if (to.matched.some(record => record.meta.auth)) {
+//       next({
+//         path: '/login',
+//         query: {
+//           redirect: to.fullPath,
+//         },
+//       })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     // 保存用户信息
+//   }
+// })
+
+export default router
