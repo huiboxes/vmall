@@ -350,6 +350,7 @@ export default {
             opacity: 0;
             overflow: hidden;
             box-shadow: 0px 3px 2px 0px rgba($color: #000000, $alpha: 0.11);
+            background-color: #fff;
             z-index: 10;
             transition: all 0.3s;
             .product {

@@ -3,6 +3,7 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { Message } from 'element-ui'
+import vueSwiper from 'vue-awesome-swiper'
 import VueLazyLoad from 'vue-lazyload'
 
 import App from './App.vue'
@@ -46,6 +47,7 @@ axios.interceptors.request.use(
 )
 
 Vue.use(VueAxios, axios)
+Vue.use(vueSwiper)
 Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg',
 })

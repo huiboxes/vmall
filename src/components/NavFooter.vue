@@ -28,7 +28,6 @@ export default {
 @import './../assets/scss/config.scss';
 .footer {
   height: 234px;
-  border-top: 4px solid $colorA;
   background-color: $colorB;
   color: $colorD;
   text-align: center;
