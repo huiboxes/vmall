@@ -20,7 +20,7 @@ module.exports = {
             code: 200,
             status: '0',
             data: {
-              'list|4-7': [
+              'list|9-18': [
                 {
                   'id|10001-11000': 0,
                   tradeName: '@cname',

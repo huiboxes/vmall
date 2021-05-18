@@ -5,6 +5,7 @@ import VueAxios from 'vue-axios'
 import { Message } from 'element-ui'
 import vueSwiper from 'vue-awesome-swiper'
 import VueLazyLoad from 'vue-lazyload'
+import store from './store'
 
 import App from './App.vue'
 import './plugins/element.js'
@@ -54,6 +55,7 @@ Vue.use(VueLazyLoad, {
 Vue.config.productionTip = false
 
 new Vue({
+  store,
   router,
   render: h => h(App),
 }).$mount('#app')
