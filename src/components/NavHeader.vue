@@ -10,7 +10,8 @@
         </div>
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{ username }}</a>
-          <a href="javascript:;" v-else @click="login">登录</a>
+          <a href="javascript:;" v-if="!username" @click="login">登录</a>
+          <a href="javascript:;" v-if="username" @click="logout">退出</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" v-else>注册</a>
 
@@ -230,12 +231,12 @@ export default {
     }
   },
   computed: {
-    username(){
+    username() {
       return this.$store.state.username
     },
-    cartCount(){
+    cartCount() {
       return this.$store.state.cartCount
-    }
+    },
   },
   filters: {
     currency(val) {
@@ -257,6 +258,14 @@ export default {
         },
       })
       this.productList = list.slice(0, 6)
+    },
+    logout() {
+      this.axios.post('/user/logout').then(() => {
+        this.$message.success('退出成功')
+        // this.$cookie.set('userId', '', { expires: '-1' })
+        this.$store.dispatch('saveUserName', '')
+        this.$store.dispatch('saveCartCount', '0')
+      })
     },
     goToCart() {
       this.$router.push('/cart')

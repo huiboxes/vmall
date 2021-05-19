@@ -12,7 +12,7 @@
             <li class="col-1">
               <span
                 class="checkbox"
-                v-bind:class="{ checked: allChecked }"
+                :class="{ checked: allChecked }"
                 @click="toggleAll"
               ></span
               >全选
@@ -27,12 +27,12 @@
             <li
               class="cart-item"
               v-for="(item, index) in list"
-              v-bind:key="index"
+              :key="index"
             >
               <div class="item-check">
                 <span
                   class="checkbox"
-                  v-bind:class="{ checked: item.productSelected }"
+                  :class="{ checked: item.productSelected }"
                   @click="updateCart(item)"
                 ></span>
               </div>
