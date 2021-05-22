@@ -177,14 +177,14 @@ export default {
       }
       .delivery {
         font-size: 16px;
-        color: #ff6700;
+        color: #F75345;
         margin-top: 26px;
         margin-bottom: 14px;
         height: 15px;
       }
       .item-price {
         font-size: 20px;
-        color: #ff6700;
+        color: #F75345;
         height: 19px;
         .del {
           font-size: 16px;
@@ -220,7 +220,7 @@ export default {
         }
         .stock {
           margin-top: 15px;
-          color: #ff6700;
+          color: #F75345;
         }
       }
       .item-version,
@@ -254,8 +254,8 @@ export default {
             background-color: #666666;
           }
           &.checked {
-            border: 1px solid #ff6600;
-            color: #ff6600;
+            border: 1px solid $colorA;
+            color: $colorA;
           }
         }
       }
@@ -269,7 +269,7 @@ export default {
         box-sizing: border-box;
         .phone-total {
           font-size: 24px;
-          color: #ff6600;
+          color: $colorA;
           margin-top: 18px;
         }
       }

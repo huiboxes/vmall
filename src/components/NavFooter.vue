@@ -13,7 +13,7 @@
       <a href="">high课堂</a>
     </div>
     <div class="copyright">
-      Copyright ©2020 jutalent.com All Rights Reserved.
+      Copyright ©2020 huibox.xyz All Rights Reserved.
     </div>
   </div>
 </template>

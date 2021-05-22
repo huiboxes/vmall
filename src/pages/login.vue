@@ -40,7 +40,7 @@
         <a href="">high课堂</a>
       </div>
       <p class="copyright">
-        Copyright ©2020 jutalent.com All Rights Reserved.
+        Copyright ©2020 huibox.xyz All Rights Reserved.
       </p>
     </div>
   </div>
@@ -155,7 +155,7 @@ export default {
           font-size: 14px;
           cursor: pointer;
           .sms {
-            color: #ff6600;
+            color: $colorA;
           }
           .reg {
             color: #999999;

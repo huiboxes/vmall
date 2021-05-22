@@ -26,9 +26,13 @@ export default {
 }
 </script>
 <style lang="scss">
+@import './../assets/scss/base.scss';
+@import './../assets/scss/config.scss';
+@import './../assets/scss/mixin.scss';
+
 .order-header {
   padding: 30px 0;
-  border-bottom: 2px solid #ff6600;
+  border-bottom: 2px solid $colorA;
   .header-logo {
     float: left;
   }

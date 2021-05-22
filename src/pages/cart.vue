@@ -24,11 +24,7 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="cart-item-list">
-            <li
-              class="cart-item"
-              v-for="(item, index) in list"
-              :key="index"
-            >
+            <li class="cart-item" v-for="(item, index) in list" :key="index">
               <div class="item-check">
                 <span
                   class="checkbox"
@@ -165,6 +161,10 @@ export default {
 }
 </script>
 <style lang="scss">
+@import './../assets/scss/base.scss';
+@import './../assets/scss/config.scss';
+@import './../assets/scss/mixin.scss';
+
 .cart {
   .wrapper {
     background-color: #f5f5f5;
@@ -184,7 +184,7 @@ export default {
         margin-right: 17px;
         cursor: pointer;
         &.checked {
-          background: url('/imgs/icon-gou.png') #ff6600 no-repeat center;
+          background: url('/imgs/icon-gou.png') $colorA no-repeat center;
           background-size: 16px 12px;
           border: none;
         }
@@ -255,7 +255,7 @@ export default {
           }
           .item-total {
             flex: 1;
-            color: #ff6600;
+            color: $colorA;
           }
           .item-del {
             flex: 1;
@@ -281,13 +281,13 @@ export default {
           margin-right: 37px;
         }
         span {
-          color: #ff6600;
+          color: $colorA;
           margin: 0 5px;
         }
       }
       .total {
         font-size: 14px;
-        color: #ff6600;
+        color: $colorA;
         span {
           font-size: 24px;
         }
