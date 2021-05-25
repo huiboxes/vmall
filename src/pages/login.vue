@@ -1,14 +1,18 @@
 <template>
   <div class="login">
     <div class="container">
-      <a href="/#/index"><img src="/imgs/login-logo.png" alt=""/></a>
+      <!-- <a href="/#/index"><img src="/imgs/login-logo.png" alt=""/></a> -->
+      <order-header title="嗨商城">
+        <template v-slot:tip>
+          <span>有好物</span>
+        </template>
+      </order-header>
     </div>
     <div class="wrapper">
       <div class="container">
         <div class="login-form">
           <h3>
-            <span class="checked">帐号登录</span><span class="sep-line">|</span
-            ><span>扫码登录</span>
+            <span class="checked">帐号登录</span>
           </h3>
           <div class="input">
             <input type="text" placeholder="请输入帐号" v-model="username" />
@@ -47,13 +51,18 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import storage from '../storage'
+import OrderHeader from '@/components/OrderHeader'
+
 export default {
   name: 'login',
+  components: {
+    OrderHeader,
+  },
   data() {
     return {
       username: '',
       password: '',
-      userId: '',
     }
   },
   methods: {
@@ -65,7 +74,8 @@ export default {
           password,
         })
         .then(res => {
-          // this.$cookie.set('userId', res.id, { expires: 'Session' })
+          storage.setItem('token', res.token)
+          storage.setItem('username',res.username)
           this.saveUserName(res.username)
           this.$router.push({
             name: 'index',
@@ -96,6 +106,9 @@ export default {
 @import './../assets/scss/button.scss';
 
 .login {
+  .order-header {
+    border-bottom: none;
+  }
   & > .container {
     height: 113px;
     img {
@@ -124,9 +137,6 @@ export default {
           margin: 40px auto 49px;
           .checked {
             color: $colorA;
-          }
-          .sep-line {
-            margin: 0 32px;
           }
         }
         .input {

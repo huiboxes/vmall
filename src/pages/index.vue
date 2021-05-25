@@ -14,7 +14,7 @@
                         :src="sub ? sub.img : '/imgs/item-box-1.png'"
                         alt=""
                       />
-                      {{ sub ? sub.name : '小米9' }}
+                      {{ sub ? sub.name : '小米11' }}
                     </a>
                   </li>
                 </ul>
@@ -60,11 +60,6 @@
           :key="index"
         >
           <img v-lazy="item.img" alt="" />
-        </a>
-      </div>
-      <div class="banner">
-        <a href="/#/product/30">
-          <img v-lazy="'/imgs/banner-1.png'" alt="" />
         </a>
       </div>
     </div>
@@ -181,11 +176,7 @@ export default {
             name: '移动4G专区',
           },
         ],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
+        
       ],
       adsList: [
         {
@@ -241,9 +232,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './../assets/scss/base.scss';
 @import './../assets/scss/config.scss';
 @import './../assets/scss/mixin.scss';
-@import './../assets/scss/base.scss';
 
 .index {
   .swiper-box {
@@ -334,9 +325,6 @@ export default {
       width: 296px;
       height: 167px;
     }
-  }
-  .banner {
-    margin-bottom: 50px;
   }
   .product-box {
     background-color: $colorJ;

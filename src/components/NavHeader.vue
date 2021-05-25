@@ -223,6 +223,7 @@
 </template>
 
 <script>
+import storage from '@/storage'
 export default {
   name: 'nav-header',
   data() {
@@ -274,6 +275,7 @@ export default {
     },
     logout() {
       this.axios.post('/user/logout').then(() => {
+        storage.clear('username')
         this.$message.success('退出成功')
         this.$store.dispatch('saveUserName', '')
         this.$store.dispatch('saveCartCount', '0')
@@ -309,7 +311,7 @@ export default {
       }
       .my-cart {
         width: 110px;
-        background-color: $colorA;
+        background-color: #424242;
         text-align: center;
         color: #fff;
         .icon-cart {

@@ -1,7 +1,9 @@
 /**
  * 商城Vuex-state
  */
- export default {
-  username:'',//登录用0
-  cartCount:0//购物车商品数量
+import storage from '../storage'
+
+export default {
+  username: storage.getItem('username') || '',
+  cartCount: 0, //购物车商品数量
 }

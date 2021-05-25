@@ -2,10 +2,11 @@ import Vue from 'vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import { Message } from 'element-ui'
 import vueSwiper from 'vue-awesome-swiper'
 import VueLazyLoad from 'vue-lazyload'
+import { Message } from 'element-ui'
 import store from './store'
+import storage from './storage'
 
 import App from './App.vue'
 import './plugins/element.js'
@@ -18,25 +19,25 @@ axios.interceptors.response.use(
     let res = response.data
     if (res.status == 0) {
       return res.data
+    } else if (res.status == -1) {
+      window.location.href = '/#/login'
+      return Promise.reject(res)
+    } else {
+      Message.warning(res.msg)
+      return Promise.reject(res)
     }
-    // else if (res.status == -1) {
-    //   window.location.href = '/#/login'
-    //   return Promise.reject(res)
-    // } else {
-    //   // Message.warning(res.msg)
-    //   return Promise.reject(res)
-    // }
   },
-  error => {
+  function(error) {
     let res = error.response
-    Message.error(res.data.message)
+    console.log(res,res.statusText);
+    Message.error(res.statusText)
     return Promise.reject(error)
   }
 )
 
 axios.interceptors.request.use(
   config => {
-    const token = 'token'
+    const token = storage.getItem('token')
     if (token) {
       config.headers.common['Authorization'] = token
     }
