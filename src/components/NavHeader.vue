@@ -16,7 +16,7 @@
           <a href="javascript:;" v-else>注册</a>
 
           <a href="javascript:;" class="my-cart" @click="goToCart"
-            ><span class="icon-cart"></span> 购物车{{ cartCount }}</a
+            ><span class="icon-cart"></span> 购物车 <span v-if="cartCount">{{ cartCount }}</span> </a
           >
         </div>
       </div>
@@ -270,12 +270,14 @@ export default {
     },
     getCartCount() {
       this.axios.get('/carts/products/sum').then((res = 0) => {
+        storage.setItem('cartCount', res)
         this.$store.dispatch('saveCartCount', res)
       })
     },
     logout() {
       this.axios.post('/user/logout').then(() => {
         storage.clear('username')
+        storage.clear('cartCount')
         this.$message.success('退出成功')
         this.$store.dispatch('saveUserName', '')
         this.$store.dispatch('saveCartCount', '0')

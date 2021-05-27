@@ -63,6 +63,11 @@
         </a>
       </div>
     </div>
+    <!-- 秒杀栏 -->
+    <div class="seckill-box">
+      <seckill></seckill>
+    </div>
+
     <div class="product-box">
       <div class="container">
         <h2>手机</h2>
@@ -110,10 +115,13 @@
 </template>
 
 <script>
-import ServiceBar from '@/components/ServiceBar'
-import Modal from '@/components/Modal'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import { mapState } from 'vuex'
+
+import ServiceBar from '@/components/ServiceBar'
+import Modal from '@/components/Modal'
+import Seckill from '@/components/Seckill'
 
 export default {
   name: 'index',
@@ -122,6 +130,7 @@ export default {
     swiperSlide,
     ServiceBar,
     Modal,
+    Seckill
   },
   data() {
     return {
@@ -176,7 +185,6 @@ export default {
             name: '移动4G专区',
           },
         ],
-        
       ],
       adsList: [
         {
@@ -214,6 +222,10 @@ export default {
       this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
     },
     addCart(id) {
+      if (!this.username.length) {
+        this.$message.warning('请先登录')
+        return 
+      }
       this.axios
         .post('/carts', {
           productId: id,
@@ -227,6 +239,9 @@ export default {
     goToCart() {
       this.$router.push('/cart')
     },
+  },
+  computed: {
+    ...mapState(['username']),
   },
 }
 </script>
@@ -326,7 +341,8 @@ export default {
       height: 167px;
     }
   }
-  .product-box {
+  .product-box,
+  .seckill-box {
     background-color: $colorJ;
     padding: 30px 0 50px;
     h2 {
@@ -337,6 +353,8 @@ export default {
       color: $colorB;
       margin-bottom: 20px;
     }
+  }
+  .product-box{
     .wrapper {
       display: flex;
       .banner-left {

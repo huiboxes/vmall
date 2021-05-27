@@ -301,10 +301,7 @@ export default {
         let errMsg = ''
         if (!receiverName) {
           errMsg = '请输入收货人名称'
-        } else if (
-          !receiverMobile ||
-          !/^1[3456789]d{9}$/.test(receiverMobile)
-        ) {
+        } else if (!receiverMobile || !/\d{11}/.test(receiverMobile)) {
           errMsg = '请输入正确格式的手机号'
         } else if (!receiverProvince) {
           errMsg = '请选择省份'

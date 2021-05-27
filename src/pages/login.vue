@@ -28,8 +28,9 @@
             <a href="javascript:;" class="btn" @click="login">登录</a>
           </div>
           <div class="tips">
-            <div class="sms" @click="register">手机短信登录/注册</div>
-            <div class="reg">立即注册<span>|</span>忘记密码？</div>
+            <div class="reg">
+              还没有账号？<span @click="register">立即注册</span>
+            </div>
           </div>
         </div>
       </div>
@@ -67,7 +68,15 @@ export default {
   },
   methods: {
     login() {
-      let { username, password } = this
+      let { username, password } = this;
+      if (/^[a-zA-Z0-9_-]{6,16}$/.test(username)) {
+        this.$message.warning('账号格式不正确')
+        return
+      }else if (/^[\w_-]{6,16}$/.test(password)){
+        this.$message.warning('密码格式不正确')
+        return
+      }
+      
       this.axios
         .post('/user/login', {
           username,
@@ -75,7 +84,7 @@ export default {
         })
         .then(res => {
           storage.setItem('token', res.token)
-          storage.setItem('username',res.username)
+          storage.setItem('username', res.username)
           this.saveUserName(res.username)
           this.$router.push({
             name: 'index',
@@ -117,9 +126,16 @@ export default {
     }
   }
   .wrapper {
-    background: url('/imgs/login-bg.jpg') no-repeat center;
+    background: rgb(249, 235, 224);
+    background: linear-gradient(
+      90deg,
+      rgba(249, 235, 224, 1) 0%,
+      rgba(212, 242, 250, 1) 35%,
+      rgba(243, 246, 235, 1) 100%
+    );
     .container {
       height: 576px;
+      background: url('/imgs/login-bg.png') no-repeat -5px;
       .login-form {
         box-sizing: border-box;
         padding-left: 31px;
@@ -164,12 +180,10 @@ export default {
           justify-content: space-between;
           font-size: 14px;
           cursor: pointer;
-          .sms {
-            color: $colorA;
-          }
           .reg {
             color: #999999;
             span {
+              color: $colorA;
               margin: 0 7px;
             }
           }
