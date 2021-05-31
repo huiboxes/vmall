@@ -10,6 +10,7 @@ import storage from './storage'
 
 import App from './App.vue'
 import './plugins/element.js'
+import 'font-awesome/css/font-awesome.min.css'
 
 axios.defaults.baseURL = '/api'
 axios.defaults.timeout = 8000
@@ -29,7 +30,7 @@ axios.interceptors.response.use(
   },
   function(error) {
     let res = error.response
-    console.log(res,res.statusText);
+    console.log(res, res.statusText)
     Message.error(res.statusText)
     return Promise.reject(error)
   }

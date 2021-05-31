@@ -16,8 +16,9 @@
           <a href="javascript:;" v-else>注册</a>
 
           <a href="javascript:;" class="my-cart" @click="goToCart"
-            ><span class="icon-cart"></span> 购物车 <span v-if="cartCount">{{ cartCount }}</span> </a
-          >
+            ><span class="icon-cart"></span> 购物车
+            <span v-if="cartCount">{{ cartCount }}</span>
+          </a>
         </div>
       </div>
     </div>
@@ -213,8 +214,8 @@
         </div>
         <div class="header-search">
           <div class="wrapper">
-            <input type="text" name="keyword" />
-            <a href="javascript:;"></a>
+            <input type="text" name="keyword" v-model="keyword" />
+            <span class="search-btn" @click="search"><a href="javascript:;"></a></span>
           </div>
         </div>
       </div>
@@ -228,6 +229,7 @@ export default {
   name: 'nav-header',
   data() {
     return {
+      keyword: '',
       productList: [],
     }
   },
@@ -284,8 +286,16 @@ export default {
       })
     },
     goToCart() {
+      if (!this.username.length) {
+        this.$message.warning('请先登录')
+        return 
+      }
       this.$router.push('/cart')
     },
+    search(){
+      
+      this.$router.push(`/search?keyword=${this.keyword}`)
+    }
   },
 }
 </script>
@@ -442,9 +452,16 @@ export default {
             height: 50px;
             padding-left: 14px;
           }
+          .search-btn {
+            display: inline-block;
+            width: 52px;
+            height: 50px;
+            line-height: 55px;
+            text-align: center;
+            cursor: pointer;
+          }
           a {
             @include bgImg(18px, 18px, '/imgs/icon-search.png');
-            margin-left: 17px;
           }
         }
       }

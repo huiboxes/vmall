@@ -43,6 +43,11 @@ const router = new Router({
       },
     },
     {
+      path: '/search',
+      name: 'search',
+      component: ()=>import('@/pages/searchResult.vue'),
+    },
+    {
       path: '/order',
       name: 'order',
       component: () => import('@/pages/order.vue'),
