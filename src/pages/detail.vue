@@ -65,9 +65,7 @@
             <div class="phone-info clearfix">
               <div class="fl">
                 {{ product.name }}
-                {{
-                  version == 1 ? '6GB+64GB 全网通' : '4GB+64GB 移动4G'
-                }}
+                {{ version == 1 ? '6GB+64GB 全网通' : '4GB+64GB 移动4G' }}
                 深灰色
               </div>
               <div class="fr">{{ product.price }}元</div>
@@ -75,7 +73,10 @@
             <div class="phone-total">总计：{{ product.price }}元</div>
           </div>
           <div class="btn-group">
-            <a href="javascript:;" class="btn btn-huge fl" @click="addCart"
+            <a
+              href="javascript:;"
+              class="btn btn-huge fl"
+              @click="addCart(product.id)"
               >加入购物车</a
             >
           </div>
@@ -91,13 +92,27 @@
       </div>
     </div>
     <service-bar></service-bar>
+    <modal
+      title="提示"
+      sureText="查看购物车"
+      btnType="1"
+      modalType="middle"
+      v-bind:showModal="showModal"
+      v-on:submit="goToCart"
+      v-on:cancel="showModal = false"
+    >
+      <template v-slot:body>
+        <p>商品添加成功！</p>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ProductParam from './../components/ProductParam'
 import ServiceBar from './../components/ServiceBar'
+import Modal from '@/components/Modal'
 export default {
   name: 'detail',
   data() {
@@ -106,6 +121,7 @@ export default {
       err: '',
       version: 1, //商品版本切换
       product: {}, //商品信息
+      showModal: false,
       swiperOption: {
         autoplay: true,
         pagination: {
@@ -120,6 +136,7 @@ export default {
     swiperSlide,
     ProductParam,
     ServiceBar,
+    Modal
   },
   mounted() {
     this.getProductInfo()
@@ -130,20 +147,29 @@ export default {
         this.product = res
       })
     },
-    addCart() {
+    addCart(id) {
+      if (!this.username.length) {
+        this.$message.warning('请先登录')
+        return
+      }
       this.axios
         .post('/carts', {
-          productId: this.id,
+          productId: id,
           selected: true,
         })
-        .then((res = { cartProductVoList: 0 }) => {
+        .then(res => {
+          this.showModal = true
           this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
-          //this.saveCartCount(res.cartTotalQuantity)
-          // this.$router.push('/cart');
         })
     },
+    goToCart() {
+      this.$router.push('/cart')
+    },
   },
-  ...mapActions(['saveCartCount'])
+  ...mapActions(['saveCartCount']),
+  computed: {
+    ...mapState(['username']),
+  },
 }
 </script>
 <style lang="scss">
@@ -177,14 +203,14 @@ export default {
       }
       .delivery {
         font-size: 16px;
-        color: #F75345;
+        color: #f75345;
         margin-top: 26px;
         margin-bottom: 14px;
         height: 15px;
       }
       .item-price {
         font-size: 20px;
-        color: #F75345;
+        color: #f75345;
         height: 19px;
         .del {
           font-size: 16px;
@@ -220,7 +246,7 @@ export default {
         }
         .stock {
           margin-top: 15px;
-          color: #F75345;
+          color: #f75345;
         }
       }
       .item-version,

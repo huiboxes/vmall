@@ -374,6 +374,7 @@ export default {
           margin-right: 20px;
           span {
             cursor: pointer;
+            
           }
           &:hover {
             color: $colorA;

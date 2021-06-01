@@ -417,6 +417,27 @@ module.exports = {
           data: 5,
         })
       })
+
+      // 搜索接口
+      app.get('/api/search/:productId', (req, res) => {
+        // 删除地址
+        res.json(
+          res.json(
+            Mock.mock({
+              status: '0',
+              data: {
+                'id|10001-11000': 0, // id
+                tradeName: '@cname', // 商品名
+                details: '测试', // 子标题
+                price: 1799, // 价格
+                // 主图
+                mainImage:
+                  '//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90',
+              },
+            })
+          )
+        )
+      })
     },
   },
 }
