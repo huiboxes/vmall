@@ -14,13 +14,52 @@
     </div>
 
     <div class="order-list-box container">
-      orderlistbox
+      <ul class="order-list clearfix">
+        <li
+          @click=";(checked = 1), getProductInfo"
+          :class="{ checked: checked == 1 }"
+        >
+          综合
+        </li>
+        <li
+          @click=";(checked = 2), sortByDate"
+          :class="{ checked: checked == 2 }"
+        >
+          新品
+        </li>
+        <li
+          @click=";(checked = 3), sortByVolume"
+          :class="{ checked: checked == 3 }"
+        >
+          销量
+        </li>
+        <li
+          @click=";(checked = 4), (priceSort = !priceSort), sortByPrice"
+          :class="{ checked: checked == 4 }"
+        >
+          价格
+          <i
+            :class="`fa fa-long-arrow-${priceSort ? 'down' : 'up'}`"
+            aria-hidden="true"
+          ></i>
+        </li>
+      </ul>
+      <ul class="type-list clearfix">
+        <li @click=";(checkedStock = !checkedStock), sortByStock">
+          <span class="checkbox">
+            <i
+              :class="`fa ${checkedStock ? 'fa-check fill' : ''}`"
+              aria-hidden="true"
+            ></i> </span
+          >仅看有货
+        </li>
+      </ul>
     </div>
 
     <div class="product-wrapper">
       <div class="product-list-box container">
         <div
-          class="product-item clearfix"
+          class="product-item"
           v-for="(item, index) in productList"
           :key="index + item.id"
         >
@@ -30,12 +69,17 @@
             </a>
           </div>
           <h2>{{ item.name }}</h2>
+          <h3>{{ item.subTitle }}</h3>
           <p class="price">
             <span>{{ item.price }}元</span>
             <del v-if="item.oldPrice">{{ item.oldPrice }}元</del>
           </p>
           <div class="btn-group">
-            <a href="javascript:;" class="btn" @click="addCart(item.id)"
+            <a
+              href="javascript:;"
+              class="btn"
+              @click="addCart(item.id)"
+              @keyup.enter="addCart(item.id)"
               >加入购物车</a
             >
           </div>
@@ -72,57 +116,11 @@ export default {
   name: 'search-result',
   data() {
     return {
+      checked: 0,
       showModal: false,
-      productList: [
-        {
-          id: 14151245,
-          name: '测试商品',
-          subTitle: '测试',
-          price: 1799,
-          mainImage:
-            'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1590401157.67326.png',
-        },
-        {
-          id: 14151245,
-          name: '测试商品',
-          subTitle: '测试',
-          price: 1799,
-          mainImage:
-            'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1590401157.67326.png',
-        },
-        {
-          id: 14151245,
-          name: '测试商品',
-          subTitle: '测试',
-          price: 1799,
-          mainImage:
-            'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1590401157.67326.png',
-        },
-        {
-          id: 14151245,
-          name: '测试商品',
-          subTitle: '测试',
-          price: 1799,
-          mainImage:
-            'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1590401157.67326.png',
-        },
-        {
-          id: 14151245,
-          name: '测试商品',
-          subTitle: '测试',
-          price: 1799,
-          mainImage:
-            'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1590401157.67326.png',
-        },
-        {
-          id: 14151245,
-          name: '测试商品',
-          subTitle: '测试',
-          price: 1799,
-          mainImage:
-            'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1590401157.67326.png',
-        },
-      ],
+      checkedStock: false,
+      priceSort: false, // false为升序，ture为降序
+      productList: [],
     }
   },
   components: {
@@ -132,12 +130,34 @@ export default {
     Modal,
   },
   mounted() {
-    /**
-     * this.$route.query.keyword
-     * 发请求，productList改为返回结果
-     */
+    this.getProductInfo()
   },
   methods: {
+    getProductInfo() {
+      let keywrod = this.$route.query.keywrod
+      this.axios.get(`/search/${keywrod}`).then(res => {
+        this.productList = res.list
+      })
+    },
+    sortByDate() {
+      this.productList = this.productList.sort(
+        (prev, curr) => curr.proDate - prev.proDate
+      )
+    },
+    sortByVolume() {
+      this.productList = this.productList.sort(
+        (prev, curr) => curr.volume - prev.volume
+      )
+    },
+    sortByPrice() {
+      this.productList = this.productList.sort((prev, curr) => {
+        if (this.priceSort) return prev.price - curr.price
+        return curr.price - prev.price
+      })
+    },
+    sortByStock() {
+      this.productList = this.productList.filter(item => item.stock > 0)
+    },
     addCart(id) {
       if (!this.username.length) {
         this.$message.warning('请先登录')
@@ -164,30 +184,102 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './../assets/scss/mixin.scss';
+@import './../assets/scss/config.scss';
+
 .search-result {
+  .order-list-box {
+    @include flex();
+    margin: 20px auto;
+    .order-list > li,
+    .type-list > li {
+      font-size: 14px;
+      transition: color 0.3s;
+      &:hover {
+        color: $colorA;
+      }
+    }
+    .order-list {
+      li {
+        cursor: pointer;
+        float: left;
+        padding: 0 30px;
+        border-right: 1px solid #e0e0e0;
+        &:last-child {
+          border: none;
+        }
+      }
+      .checked {
+        color: $colorA;
+      }
+    }
+    .type-list {
+      li {
+        span.checkbox {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          margin-right: 8px;
+          border: 1px solid #e0e0e0;
+          background-color: #fff;
+          font-size: 16px;
+          line-height: 18px;
+          text-align: center;
+
+          .fill {
+            width: 20px;
+            height: 20px;
+            color: #fff;
+            background-color: $colorA;
+            transform: translate(-1px, -2px);
+          }
+        }
+      }
+    }
+  }
+
   .breadcrumb {
     padding: 20px 0;
     background-color: #f5f5f5;
   }
 
   .product-wrapper {
+    padding: 20px 0;
     background-color: #f5f5f5;
+
     .product-list-box {
       display: flex;
       flex-wrap: wrap;
       .product-item {
         background-color: #fff;
-        width: 22.999999%;
-        margin: 7px;
+        width: 24.14%;
         padding: 47px 0;
+        margin: 7px;
         text-align: center;
-        // background-color: #fff;
-        // box-shadow: 0 5px 15px rgb(0 0 0 / 20%) ;
-
+        transition: box-shadow 0.5s linear;
+        &:nth-child(4n + 1) {
+          /* 每行的第一个去掉外边距 */
+          margin-left: 0;
+        }
+        &:nth-child(4n) {
+          /* 每行的最后一个去掉外边距 */
+          margin-right: 0;
+        }
+        &:hover {
+          box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.2);
+        }
         h2 {
           color: #424242;
           font-size: 14px;
-          font-weight: 500;
+          font-weight: normal;
+        }
+        h3 {
+          color: #666;
+          font-weight: normal;
+          font-size: 13px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .figure {
           margin: 0 auto 16px;

@@ -36,13 +36,14 @@ import Slide from '@/components/Slide.vue'
 export default {
   data() {
     return {
-      round: '24:00',
+      round: new Date().getHours() + ' : 00',
       hour: '',
       minute: '',
       second: '',
       countDownTimer: '',
       slideItems: [
         {
+          id: '23132123',
           value: '高品质多功能头戴耳机',
           desc: '我的私人KTV',
           newPrice: '199',
@@ -52,6 +53,7 @@ export default {
           url: 'https://www.mi.com/seckill/',
         },
         {
+          id: '231321563',
           value: 'Yeelight LED灯泡 彩光版',
           desc: '亮度自由调节',
           newPrice: '1',
@@ -61,6 +63,7 @@ export default {
           url: 'https://www.mi.com/seckill/',
         },
         {
+          id: '2542123',
           value: '飞利浦智睿筒灯 可调色温版 白色',
           desc: '冷暖随心调',
           newPrice: '1',
@@ -70,6 +73,7 @@ export default {
           url: 'https://www.mi.com/seckill/',
         },
         {
+          id: '23132153',
           value: '小米AI音箱',
           desc: '听音乐、语音遥控家电',
           newPrice: '249',
@@ -358,7 +362,7 @@ export default {
       }, 1000)
     },
     timeComput() {
-      let hour = 24 - new Date().getHours() - 1
+      let hour = new Date().getHours() - new Date().getHours() + 1
       let minute = 60 - new Date().getMinutes() - 1
       let second = 60 - new Date().getSeconds() - 1
 
@@ -413,7 +417,7 @@ export default {
   .sale-count-down {
     display: inline-block;
     width: 234px;
-    height: 340px;
+    height: 390px;
     padding-top: 39px;
     border-top: 1px solid #e53935;
     background: #f1eded;

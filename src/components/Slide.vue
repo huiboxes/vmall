@@ -16,6 +16,7 @@
             <del>{{ item.oldPrice }}元</del>
           </div>
         </a>
+        <button class="btn" @click="buy(item.id)">立即抢购</button>
       </li>
     </ul>
   </div>
@@ -74,6 +75,11 @@ export default {
         this.next()
       }, 5000)
     },
+    buy(id){
+      // 发送商品ID到后台，后台返回订单号
+      // 跳转到订单支付页面，支付
+      console.log(id);
+    }
   },
   computed: {
     transformStyle() {
@@ -91,16 +97,16 @@ export default {
 <style lang="scss">
 .sale-slide {
   width: 978px;
-  height: 340px;
   margin-left: 14px;
   overflow: hidden;
   position: relative;
   display: flex;
   .slide-container {
-    height: 340px;
+    height: 390px;
     display: flex;
     transition: all 1s ease-in-out;
     .slide-item {
+      padding-bottom:  100px;
       display: block;
       width: 234px;
       margin-right: 14px;

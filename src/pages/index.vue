@@ -130,7 +130,7 @@ export default {
     swiperSlide,
     ServiceBar,
     Modal,
-    Seckill
+    Seckill,
   },
   data() {
     return {
@@ -224,7 +224,7 @@ export default {
     addCart(id) {
       if (!this.username.length) {
         this.$message.warning('请先登录')
-        return 
+        return
       }
       this.axios
         .post('/carts', {
@@ -354,7 +354,7 @@ export default {
       margin-bottom: 20px;
     }
   }
-  .product-box{
+  .product-box {
     .wrapper {
       display: flex;
       .banner-left {
@@ -377,6 +377,10 @@ export default {
             height: 302px;
             background-color: $colorG;
             text-align: center;
+            transition: box-shadow 0.5s linear;
+            &:hover {
+              box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.2);
+            }
             span {
               display: inline-block;
               width: 67px;
