@@ -136,16 +136,19 @@ export default {
     swiperSlide,
     ProductParam,
     ServiceBar,
-    Modal
+    Modal,
   },
   mounted() {
     this.getProductInfo()
   },
   methods: {
     getProductInfo() {
-      this.axios.get(`/products/${this.id}`).then(res => {
-        this.product = res
-      })
+      this.axios
+        .get(`/products/${this.id}`)
+        .then(res => {
+          this.product = res
+        })
+        .catch(err => console.log(err))
     },
     addCart(id) {
       if (!this.username.length) {

@@ -18,7 +18,7 @@ axios.defaults.timeout = 8000
 axios.interceptors.response.use(
   function(response) {
     let res = response.data
-    if (res.status == 0) {
+    if (res.status == 200) {
       return res.data
     } else if (res.status == -1) {
       window.location.href = '/#/login'

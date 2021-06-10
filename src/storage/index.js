@@ -12,7 +12,7 @@ export default {
     } else {
       let val = this.getStorage()
       val[key] = value
-      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(val))
     }
   },
   // 获取某一个模块下面的属性user下面的userName
@@ -24,7 +24,7 @@ export default {
     return this.getStorage()[key]
   },
   getStorage() {
-    return JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) || '{}')
+    return JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '{}')
   },
   clear(key, module_name) {
     let val = this.getStorage()
@@ -34,6 +34,6 @@ export default {
     } else {
       delete val[key]
     }
-    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(val))
   },
 }

@@ -213,13 +213,13 @@ export default {
   },
   methods: {
     async init() {
-      const { list } = await this.axios.get('/products', {
+      const data = await this.axios.get('/products', {
         params: {
-          tradeType: '普通',
+          productType: '1',
         },
       })
-      this.productList = list.slice(6, 14)
-      this.phoneList = [list.slice(0, 4), list.slice(4, 8)]
+      this.productList = data.slice(6, 14)
+      this.phoneList = [data.slice(0, 4), data.slice(4, 8)]
     },
     addCart(id) {
       if (!this.username.length) {

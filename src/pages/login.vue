@@ -68,24 +68,24 @@ export default {
   },
   methods: {
     login() {
-      let { username, password } = this;
+      let { username, password } = this
       if (!/^[a-zA-Z0-9_-]{6,16}$/.test(username)) {
         this.$message.warning('账号格式不正确')
         return
-      }else if (!/^[\w_-]{6,16}$/.test(password)){
+      } else if (!/^[\w_-]{6,16}$/.test(password)) {
         this.$message.warning('密码格式不正确')
         return
       }
-      
+
       this.axios
         .post('/user/login', {
           username,
           password,
-        })
+        })  
         .then(res => {
           storage.setItem('token', res.token)
-          storage.setItem('username', res.username)
-          this.saveUserName(res.username)
+          storage.setItem('username', res.user.username)
+          this.saveUserName(res.user.username)
           this.$router.push({
             name: 'index',
             params: {
@@ -93,6 +93,7 @@ export default {
             },
           })
         })
+        .catch(err => console.log(err))
     },
     ...mapActions(['saveUserName']),
     register() {

@@ -37,7 +37,7 @@
                   <a :href="`/#/product/${item.id}`" target="_blank">
                     <div class="pro-img">
                       <img
-                        :src="item.mainImage"
+                        :src="'http://192.168.31.102:8890/' + item.mainImage"
                         :alt="item.details"
                         width="160"
                         height="110"
@@ -262,12 +262,12 @@ export default {
       this.axios
         .get('/products', {
           params: {
-            tradeType: '普通',
+            productType: '1',
             pageSize: 6,
           },
         })
         .then(res => {
-          this.productList = res.list
+          this.productList = res
         })
     },
     getCartCount() {
@@ -277,7 +277,7 @@ export default {
       })
     },
     logout() {
-      this.axios.post('/user/logout').then(() => {
+      this.axios.post(`/user/logout?token=${storage.getItem('token')}`).then(() => {
         storage.clear('username')
         storage.clear('cartCount')
         this.$message.success('退出成功')
