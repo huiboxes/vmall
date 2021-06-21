@@ -73,7 +73,7 @@ export default {
       clearInterval(this.slideTimer)
       this.slideTimer = setInterval(() => {
         this.next()
-      }, 5000)
+      }, 8000)
     },
     buy(id){
       // 发送商品ID到后台，后台返回订单号

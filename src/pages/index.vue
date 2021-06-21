@@ -74,7 +74,7 @@
         <div class="wrapper">
           <div class="banner-left">
             <a href="/#/product/35"
-              ><img v-lazy="'/imgs/mix-alpha.jpg'" alt=""
+              ><img v-lazy="'/imgs/mix-fold.webp'" alt=""
             /></a>
           </div>
           <div class="list-box">
@@ -82,7 +82,7 @@
               <div class="item" v-for="(item, j) in arr" :key="j">
                 <span :class="{ 'new-pro': j % 2 == 0 }">新品</span>
                 <div class="item-img">
-                  <img v-lazy="item.mainImage" alt="" />
+                  <img v-lazy="proxyHost + item.mainImage" alt="" />
                 </div>
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
@@ -122,6 +122,7 @@ import { mapState } from 'vuex'
 import ServiceBar from '@/components/ServiceBar'
 import Modal from '@/components/Modal'
 import Seckill from '@/components/Seckill'
+import { proxyHost } from '@/config'
 
 export default {
   name: 'index',
@@ -134,6 +135,7 @@ export default {
   },
   data() {
     return {
+      proxyHost: proxyHost.replace('8893', '8890'),
       swiperOption: {
         autoplay: 4000,
         speed: 800,

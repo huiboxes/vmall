@@ -79,11 +79,11 @@
               href="javascript:;"
               class="btn"
               @click="addCart(item.id)"
-              @keyup.enter="addCart(item.id)"
               >加入购物车</a
             >
           </div>
         </div>
+        <no-data v-if="productList.length == 0" :description="`抱歉，没有 ${$route.query.keyword} 相关结果，请尝试换个词试试`" style="margin: auto;"></no-data>
       </div>
     </div>
 
@@ -111,6 +111,7 @@ import Modal from '@/components/Modal'
 import ServiceBar from '@/components/ServiceBar'
 import NavFooter from '@/components/NavFooter'
 import NavHeader from '@/components/NavHeader'
+import NoData from '@/components/NoData'
 
 export default {
   name: 'search-result',
@@ -128,15 +129,16 @@ export default {
     NavFooter,
     NavHeader,
     Modal,
+    NoData
   },
   mounted() {
     this.getProductInfo()
   },
   methods: {
     getProductInfo() {
-      let keywrod = this.$route.query.keywrod
-      this.axios.get(`/search/${keywrod}`).then(res => {
-        this.productList = res.list
+      let keyword = this.$route.query.keyword
+      this.axios.get(`/products/search/${keyword}`).then(list => {
+        this.productList = list
       })
     },
     sortByDate() {

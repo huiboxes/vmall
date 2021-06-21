@@ -1,12 +1,18 @@
 <template>
   <div class="no-data">
     <img src="/imgs/icon-no-data.png" alt="" />
-    <p>当前暂无提交的订单记录.</p>
+    <p>{{ description }}</p>
   </div>
 </template>
 <script>
 export default {
   name: 'no-data',
+  props: {
+    description: {
+      type: String,
+      default: '抱歉，暂时没有相关数据'
+    }
+  }
 }
 </script>
 <style lang="scss">

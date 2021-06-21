@@ -34,9 +34,10 @@
               </div>
               <div class="item-name">
                 <img v-lazy="item.productMainImage" alt="" />
-                <span>{{
-                  item.productName + ' , ' + item.productSubtitle
-                }}</span>
+                <span
+                  >{{ item.tradeName }} 
+                  {{  item.detail == 'undefined' ? ',' + item.detail : '' }}</span
+                >
               </div>
               <div class="item-price">{{ item.productPrice }}</div>
               <div class="item-num">

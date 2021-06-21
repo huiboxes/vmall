@@ -1,14 +1,14 @@
 <template>
   <div class="product">
-    <product-param :title="product.name">
+    <product-param :title="product.tradeName">
       <template v-slot:buy>
         <button class="btn" @click="buy">立即购买</button>
       </template>
     </product-param>
     <div class="content">
       <div class="item-bg">
-        <h2>{{ product.name }}</h2>
-        <h3>{{ product.subtitle }}</h3>
+        <h2>{{ product.tradeName }}</h2>
+        <h3>{{ product.details }}</h3>
         <p>
           <a href="" id="">全球首款双频 GP</a>
           <span>|</span>
@@ -104,6 +104,7 @@ export default {
     getProductInfo() {
       let id = this.$route.params.id
       this.axios.get(`/products/${id}`).then(res => {
+        console.log(res);
         this.product = res
       })
     },
@@ -137,7 +138,7 @@ export default {
       }
       h3 {
         font-size: 24px;
-        letter-spacing: 10px;
+        letter-spacing: 3px;
       }
       p {
         margin-top: 21px;

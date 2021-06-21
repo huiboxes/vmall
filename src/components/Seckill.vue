@@ -27,6 +27,21 @@
       </div>
       <slide :slideItems="slideItems" ref="slide"></slide>
     </div>
+    <div class="box-footer">
+      <transition-group name="fade">
+        <div
+          class="pub-order-bar"
+          v-for="item in purchasedOrder"
+          :key="item.id"
+        >
+          号码 {{ item.phone | formatPhone }} 的
+          {{ item.name | formatName }} 用户刚刚以{{
+            item.discount
+          }}折抢购到了心爱的宝贝
+        </div>
+      </transition-group>
+      <p><el-link type="info" href="/#/order/pub">查看更多</el-link></p>
+    </div>
   </div>
 </template>
 
@@ -41,6 +56,7 @@ export default {
       minute: '',
       second: '',
       countDownTimer: '',
+      T: '',
       slideItems: [
         {
           id: '23132123',
@@ -352,6 +368,26 @@ export default {
           url: 'https://www.mi.com/seckill/',
         },
       ],
+      purchasedOrder: [
+        {
+          id: '23121231',
+          name: 'bob',
+          phone: '18381953871',
+          discount: '5.5',
+        },
+        {
+          id: '566536231',
+          name: 'jerry',
+          phone: '18381953982',
+          discount: '5.5',
+        },
+        {
+          id: '231245245245',
+          name: 'tom',
+          phone: '18381953474',
+          discount: '5.6',
+        },
+      ],
     }
   },
   methods: {
@@ -370,6 +406,11 @@ export default {
       this.minute = this.addZero(minute)
       this.second = this.addZero(second)
     },
+    getPurchasedOrder() {
+      this.axios.get('/orders/pub').then(res => {
+        this.purchasedOrder = res.list
+      })
+    },
     addZero(m) {
       return m < 10 ? '0' + m : m
     },
@@ -379,12 +420,34 @@ export default {
     next() {
       this.$refs.slide.next()
     },
+    // 轮询最新抢购订单
+    loopPubOrderState() {
+      this.T = setInterval(() => {
+        this.axios.get('/orders/pub').then(res => {
+          this.purchasedOrder = res.list
+        })
+      }, 1000)
+    },
   },
   components: {
-    Slide: Slide,
+    Slide,
+  },
+  filters: {
+    formatPhone(val) {
+      if (!val) return '此用户电话异常'
+      return val.replace(val.slice(3, 7), '****')
+    },
+    formatName(val) {
+      if (!val) return '此用户账户异常'
+      return val[0] + '****' + val[val.length - 1]
+    },
   },
   mounted() {
     this.countDown()
+    // this.loopPubOrderState()
+  },
+  destroyed() {
+    // clearInterval(this.T)
   },
 }
 </script>
@@ -467,6 +530,16 @@ export default {
   }
 }
 
+.box-footer {
+  padding: 12px;
+  background-color: rgb(224, 222, 222);
+  text-align: center;
+  font-size: 14px;
+  .pub-order-bar {
+    color: #555;
+  }
+}
+
 .slide-control {
   display: flex;
   border: 1px solid #e0e0e0;
@@ -494,5 +567,14 @@ export default {
     height: 21px;
     background: #e0e0e0;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

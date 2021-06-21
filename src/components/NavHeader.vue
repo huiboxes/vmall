@@ -37,7 +37,7 @@
                   <a :href="`/#/product/${item.id}`" target="_blank">
                     <div class="pro-img">
                       <img
-                        :src="'http://192.168.31.102:8890/' + item.mainImage"
+                        :src="proxyHost + item.mainImage"
                         :alt="item.details"
                         width="160"
                         height="110"
@@ -47,76 +47,6 @@
                     <div class="pro-price">{{ item.price | currency }}</div>
                   </a>
                 </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
               </ul>
             </div>
           </div>
@@ -124,88 +54,22 @@
             <span>今日特价</span>
             <div class="children">
               <ul>
-                <li class="product">
-                  <a href="" target="_blank">
+                <li
+                  class="product"
+                  v-for="item in specialProductList"
+                  :key="item.id"
+                >
+                  <a :href="`/#/product/${item.id}`" target="_blank">
                     <div class="pro-img">
                       <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
+                        :src="proxyHost + item.mainImage"
+                        :alt="item.details"
                         width="160"
                         height="110"
                       />
                     </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_blank">
-                    <div class="pro-img">
-                      <img
-                        src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/acd0f27496ccdf81ef42124c35e8bfc4.png?thumb=1&amp;w=200&amp;h=138&amp;f=webp&amp;q=90"
-                        alt="K40 游 戏增强版"
-                        width="160"
-                        height="110"
-                      />
-                    </div>
-                    <div class="pro-name">K40 游戏增强版</div>
-                    <div class="pro-price">1999元</div>
+                    <div class="pro-name">{{ item.tradeName }}</div>
+                    <div class="pro-price">{{ item.price | currency }}</div>
                   </a>
                 </li>
               </ul>
@@ -215,7 +79,9 @@
         <div class="header-search">
           <div class="wrapper">
             <input type="text" name="keyword" v-model="keyword" />
-            <span class="search-btn" @click="search"><a href="javascript:;"></a></span>
+            <span class="search-btn" @click="search" @keyup.13="search"
+              ><a href="javascript:;"></a
+            ></span>
           </div>
         </div>
       </div>
@@ -225,12 +91,16 @@
 
 <script>
 import storage from '@/storage'
+import { proxyHost } from '@/config.js'
+
 export default {
   name: 'nav-header',
   data() {
     return {
       keyword: '',
       productList: [],
+      specialProductList: [],
+      proxyHost: proxyHost.replace('8893','8890')
     }
   },
   computed: {
@@ -268,6 +138,9 @@ export default {
         })
         .then(res => {
           this.productList = res
+          this.specialProductList = res.sort(
+            (prev, curr) => curr.price - prev.price
+          )
         })
     },
     getCartCount() {
@@ -277,25 +150,26 @@ export default {
       })
     },
     logout() {
-      this.axios.post(`/user/logout?token=${storage.getItem('token')}`).then(() => {
-        storage.clear('username')
-        storage.clear('cartCount')
-        this.$message.success('退出成功')
-        this.$store.dispatch('saveUserName', '')
-        this.$store.dispatch('saveCartCount', '0')
-      })
+      this.axios
+        .post(`/user/logout?token=${storage.getItem('token')}`)
+        .then(() => {
+          storage.clear('username')
+          storage.clear('cartCount')
+          this.$message.success('退出成功')
+          this.$store.dispatch('saveUserName', '')
+          this.$store.dispatch('saveCartCount', '0')
+        })
     },
     goToCart() {
       if (!this.username.length) {
         this.$message.warning('请先登录')
-        return 
+        return
       }
       this.$router.push('/cart')
     },
-    search(){
-      
+    search() {
       this.$router.push(`/search?keyword=${this.keyword}`)
-    }
+    },
   },
 }
 </script>
@@ -374,7 +248,6 @@ export default {
           margin-right: 20px;
           span {
             cursor: pointer;
-            
           }
           &:hover {
             color: $colorA;

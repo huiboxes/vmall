@@ -64,7 +64,7 @@
             @current-change="handleChange"
           >
           </el-pagination>
-          <no-data v-if="!loading && list.length == 0"></no-data>
+          <no-data v-if="!loading && list.length == 0" description="当前暂无提交的订单记录"></no-data>
         </div>
       </div>
     </div>

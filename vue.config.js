@@ -1,18 +1,19 @@
 const Mock = require('mockjs')
+import { proxyHost } from '@/config'
 
 module.exports = {
   devServer: {
-    // host: 'localhost',
+    host: '0.0.0.0',
     // port: 8080,
-    proxy: {
-      '/api': {
-        target: 'http://192.168.31.102:8893',
-        changeOrigin: true,
-        // pathRewrite: {
-        //   '^/api': '',
-        // },
-      },
-    },
+    // proxy: {
+    //   '/api': {
+    //     target: proxyHost,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': '',
+    //     },
+    //   },
+    // },
     // productionSourceMap: true,
     // chainWebpack: config => {
     //   config.plugins.delete('prefetch')

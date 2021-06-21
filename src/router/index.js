@@ -45,7 +45,7 @@ const router = new Router({
     {
       path: '/search',
       name: 'search',
-      component: ()=>import('@/pages/searchResult.vue'),
+      component: () => import('@/pages/searchResult.vue'),
     },
     {
       path: '/order',
@@ -74,6 +74,11 @@ const router = new Router({
           path: 'alipay',
           name: 'alipay',
           component: () => import('@/pages/alipay.vue'),
+        },
+        {
+          path: 'pub',
+          name: 'order-pub',
+          component: () => import('@/pages/orderPub.vue'),
         },
       ],
     },
