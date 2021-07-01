@@ -101,13 +101,16 @@
             <ul>
               <li v-for="(item, index) in cartList" :key="index">
                 <div class="good-name">
-                  <img v-lazy="item.productMainImage" alt="" />
-                  <span>{{
-                    item.productName + ' ' + item.productSubtitle
-                  }}</span>
+                  <img v-lazy="proxyHost + item.mainImage" alt="" />
+                  <span
+                    >{{ item.tradeName }}
+                    {{
+                      item.detail == 'undefined' ? ',' + item.detail : ''
+                    }}</span
+                  >
                 </div>
                 <div class="good-price">
-                  {{ item.productPrice }}元x{{ item.quantity }}
+                  {{ item.price }}元x{{ item.quantity }}
                 </div>
                 <div class="good-total">{{ item.productTotalPrice }}元</div>
               </li>
@@ -154,7 +157,7 @@
       </div>
     </div>
     <modal
-      title="新增确认"
+      title="新增地址"
       btnType="1"
       :showModal="showEditModal"
       @cancel="showEditModal = false"
@@ -178,16 +181,22 @@
           </div>
           <div class="item">
             <select name="province" v-model="checkedItem.receiverProvince">
+              <option disabled selected value>省份</option>
+              <option value hidden>重置</option>
               <option value="北京">北京</option>
-              <option value="天津">天津</option>
+              <option value="天津">天津</option>  
               <option value="河北">河北</option>
             </select>
             <select name="city" v-model="checkedItem.receiverCity">
+              <option disabled selected value>城市</option>
+              <option value hidden>重置</option>
               <option value="北京">北京</option>
               <option value="天津">天津</option>
               <option value="河北">石家庄</option>
             </select>
             <select name="district" v-model="checkedItem.receiverDistrict">
+              <option disabled selected value>区/县</option>
+              <option value hidden>重置</option>
               <option value="北京">昌平区</option>
               <option value="天津">海淀区</option>
               <option value="河北">东城区</option>
@@ -200,6 +209,7 @@
             <textarea
               name="street"
               v-model="checkedItem.receiverAddress"
+              placeholder="请输入详细地址"
             ></textarea>
           </div>
           <div class="item">
@@ -229,6 +239,8 @@
 <script>
 import OrderHeader from '@/components/OrderHeader'
 import Modal from '@/components/Modal'
+import { proxyHost } from '@/config.js'
+
 export default {
   name: 'order-confirm',
   data() {
@@ -242,6 +254,7 @@ export default {
       showDelModal: false, //是否显示删除弹框
       showEditModal: false, //是否显示新增或者编辑弹框
       checkIndex: 0, //当前收货地址选中索引
+      proxyHost: proxyHost.replace('8893', '8890'),
     }
   },
   components: {
@@ -255,7 +268,7 @@ export default {
   methods: {
     getAddressList() {
       this.axios.get('/shoppings').then(res => {
-        this.list = res.list
+        this.list = res
       })
     },
     // 打开新增地址弹框
@@ -340,6 +353,7 @@ export default {
     },
     getCartList() {
       this.axios.get('/carts').then(res => {
+        console.log(res)
         let list = res.cartProductVoList //获取购物车中所有商品数据
         this.cartTotalPrice = res.cartTotalPrice //商品总金额
         this.cartList = list.filter(item => item.productSelected)

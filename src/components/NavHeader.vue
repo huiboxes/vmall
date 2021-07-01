@@ -120,7 +120,7 @@ export default {
   mounted() {
     this.getProductList()
     let params = this.$route.params
-    if (params && params.from == 'login') {
+    if (params) {
       this.getCartCount()
     }
   },

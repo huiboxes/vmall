@@ -28,15 +28,17 @@
               <div class="item-check">
                 <span
                   class="checkbox"
-                  :class="{ checked: item.productSelected }"
+                  :class="{ checked: item.productSelected - 0 == 1 }"
                   @click="updateCart(item)"
                 ></span>
               </div>
               <div class="item-name">
-                <img v-lazy="item.productMainImage" alt="" />
+                <img v-lazy="proxyHost + item.mainImage" alt="" />
                 <span
-                  >{{ item.tradeName }} 
-                  {{  item.detail == 'undefined' ? ',' + item.detail : '' }}</span
+                  >{{ item.tradeName }}
+                  {{
+                    item.detail == 'undefined' ? ',' + item.detail : ''
+                  }}</span
                 >
               </div>
               <div class="item-price">{{ item.productPrice }}</div>
@@ -75,6 +77,8 @@
 import OrderHeader from './../components/OrderHeader'
 import ServiceBar from './../components/ServiceBar'
 import NavFooter from './../components/NavFooter'
+import { proxyHost } from '@/config.js'
+
 export default {
   name: 'index',
   components: {
@@ -88,6 +92,7 @@ export default {
       allChecked: false, //是否全选
       cartTotalPrice: 0, //商品总金额
       checkedNum: 0, //选中商品数量
+      proxyHost: proxyHost.replace('8893', '8890'),
     }
   },
   mounted() {
@@ -103,7 +108,7 @@ export default {
     // 更新购物车数量和购物车单选状态
     updateCart(item, type) {
       let quantity = item.quantity,
-        selected = item.productSelected
+        selected = (item.productSelected - 0 == 1) // 隐式转换成Boolean值
       if (type == '-') {
         if (quantity == 1) {
           this.$message.warning('商品至少保留一件')
@@ -117,12 +122,13 @@ export default {
         }
         ++quantity
       } else {
-        selected = !item.productSelected
+        selected = !(item.productSelected - 0 == 1) // 隐式转换成Boolean值
       }
+
       this.axios
-        .put(`/carts/${item.productId}`, {
+        .put(`/carts/${item.id}`, {
           quantity,
-          selected,
+          selected: Boolean(selected),
         })
         .then(res => {
           this.renderData(res)
@@ -130,7 +136,7 @@ export default {
     },
     // 删除购物车商品
     delProduct(item) {
-      this.axios.delete(`/carts/${item.productId}`).then(res => {
+      this.axios.delete(`/carts/${item.id}`).then(res => {
         this.$message.success('删除成功')
         this.renderData(res)
       })
@@ -147,11 +153,11 @@ export default {
       this.list = res.cartProductVoList || []
       this.allChecked = res.selectedAll
       this.cartTotalPrice = res.cartTotalPrice
-      this.checkedNum = this.list.filter(item => item.productSelected).length
+      this.checkedNum = this.list.filter(item => (item.productSelected - 0 == 1)).length
     },
     // 购物车下单
     order() {
-      let isCheck = this.list.every(item => !item.productSelected)
+      let isCheck = this.list.every(item => !(item.productSelected - 0 == 1))
       if (isCheck) {
         this.$message.warning('请选择一件商品')
       } else {
