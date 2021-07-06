@@ -7,28 +7,39 @@
         :key="index"
         :style="{ 'border-top-color': item.topColor }"
       >
-        <a :href="item.url">
-          <img :src="item.src" :alt="item.value" />
-          <h3 class="name ellipsis">{{ item.value }}</h3>
-          <span class="desc ellipsis">{{ item.desc }}</span>
+        <a href="javascript:;">
+          <img :src="proxyHost + item.productImgae" :alt="item.productName" />
+          <h3 class="name ellipsis">{{ item.productName }}</h3>
+          <span class="desc ellipsis">{{ item.detail }}</span>
           <div class="price">
             <span>{{ item.newPrice }}元</span>
             <del>{{ item.oldPrice }}元</del>
           </div>
         </a>
-        <button class="btn" @click="buy(item.id)">立即抢购</button>
+        <button
+          :class="['btn', { deactive: btnDeActive }]"
+          @click="buy(item.id)"
+        >
+          立即抢购
+        </button>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { proxyHost } from '@/config.js'
+
 export default {
   data() {
     return {
       slideIndex: 0,
       slideTimer: '',
       Xvalue: 0,
+      btnDeActive: false,
+      proxyHost: proxyHost.replace('8893', '8890'),
+      T: '',
     }
   },
   props: {
@@ -75,18 +86,51 @@ export default {
         this.next()
       }, 8000)
     },
-    buy(id){
-      // 发送商品ID到后台，后台返回订单号
-      // 跳转到订单支付页面，支付
-      console.log(id);
-    }
+    buy(id) {
+      if (this.btnDeActive) return
+      if (!this.username.length) {
+        this.$message.warning('请先登录')
+        return
+      }
+      this.axios
+        .post('/seckill', {
+          productId: id,
+        })
+        .then(res => {
+          if (res.msg !== '排队中') return Promise.reject('抱歉，抢购失败请稍后再试')
+          this.loopSeckillState(id)
+        })
+        // .catch(err => {
+        //   this.$message.warning(err)
+        // })
+    },
+    loopSeckillState(productId) {
+      this.btnDeActive = true
+      this.T = setInterval(() => {
+        this.axios.get(`/seckill/result?productId=${productId}`).then(res => {
+          if (res.msg.length > 2) {
+            clearInterval(this.T)
+            this.btnDeActive = false
+            this.goOrderList()
+          } else if (res.msg === '-1') {
+            clearInterval(this.T)
+            this.btnDeActive = false
+            this.$message.warning('抱歉，抢购失败请稍后再试')
+          }
+        })
+      }, 300)
+    },
+    goOrderList() {
+      this.$router.push('/order/list')
+    },
   },
   computed: {
+    ...mapState(['username']),
     transformStyle() {
       return {
         transform: `translate3d(${this.Xvalue}px, 0, 0)`,
       }
-    },
+    },  
   },
   mounted() {
     this.play()
@@ -106,7 +150,7 @@ export default {
     display: flex;
     transition: all 1s ease-in-out;
     .slide-item {
-      padding-bottom:  100px;
+      padding-bottom: 100px;
       display: block;
       width: 234px;
       margin-right: 14px;
@@ -114,6 +158,7 @@ export default {
       border-top-style: solid;
       text-align: center;
       background: #fff;
+
       a {
         display: block;
         height: 300px;
@@ -151,6 +196,11 @@ export default {
           color: #b0b0b0;
           margin-left: 4px;
         }
+      }
+
+      .deactive {
+        background-color: #b0b0b0;
+        cursor: wait;
       }
     }
   }

@@ -184,7 +184,7 @@
               <option disabled selected value>省份</option>
               <option value hidden>重置</option>
               <option value="北京">北京</option>
-              <option value="天津">天津</option>  
+              <option value="天津">天津</option>
               <option value="河北">河北</option>
             </select>
             <select name="city" v-model="checkedItem.receiverCity">
@@ -353,7 +353,6 @@ export default {
     },
     getCartList() {
       this.axios.get('/carts').then(res => {
-        console.log(res)
         let list = res.cartProductVoList //获取购物车中所有商品数据
         this.cartTotalPrice = res.cartTotalPrice //商品总金额
         this.cartList = list.filter(item => item.productSelected)
@@ -374,13 +373,15 @@ export default {
           shippingId: item.id,
         })
         .then(res => {
+          console.log(res)
           this.$router.push({
             path: '/order/pay',
             query: {
-              orderNo: res.orderNo,
+              orderNo: res,
             },
           })
         })
+        .catch(err => console.log(err))
     },
   },
 }

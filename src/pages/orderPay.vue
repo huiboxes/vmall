@@ -43,7 +43,9 @@
               <div class="detail-info">
                 <ul>
                   <li v-for="(item, index) in orderDetail" :key="index">
-                    <img v-lazy="item.productImage" />{{ item.productName }}
+                    <img v-lazy="proxyHost + item.productImage" />{{
+                      item.productName
+                    }}
                   </li>
                 </ul>
               </div>
@@ -97,6 +99,8 @@ import QRCode from 'qrcode'
 import OrderHeader from '@/components/OrderHeader'
 import ScanPayCode from '@/components/ScanPayCode'
 import Modal from '@/components/Modal'
+import { proxyHost } from '@/config.js'
+
 export default {
   name: 'order-pay',
   data() {
@@ -111,6 +115,7 @@ export default {
       showPayModal: false, //是否显示二次支付确认弹框
       payment: 0, //订单总金额
       T: '', //定时器ID
+      proxyHost: proxyHost.replace('8893', '8890'),
     }
   },
   components: {
@@ -124,10 +129,11 @@ export default {
   methods: {
     getOrderDetail() {
       this.axios.get(`/orders/${this.orderId}`).then(res => {
-        let item = res.shippingVo
+        let item = res[0]
+        console.log(item);
         this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`
-        this.orderDetail = res.orderItemVoList
-        this.payment = res.payment
+        this.orderDetail = item.orderItemVoList
+        this.payment = item.payment
       })
     },
     paySubmit(payType) {
@@ -135,11 +141,11 @@ export default {
         window.open('/#/order/alipay?orderId=' + this.orderId, '_blank')
       } else {
         this.axios
-          .post('/pay', {
+          .post('/orders/pay', {
             orderId: this.orderId,
-            orderName: 'Vue高仿小米商城',
-            amount: 0.01, //单位元
-            payType: 2, //1支付宝，2微信
+            orderName: '嗨商城',
+            amount: 0.01, // 单位元
+            payType: 1, // 1支付宝，2微信
           })
           .then(res => {
             QRCode.toDataURL(res.content)

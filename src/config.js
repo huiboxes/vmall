@@ -1,1 +1,1 @@
-export const proxyHost = 'http://172.30.16.57:8893/'
+export const proxyHost = 'http://172.20.87.117:8893/'

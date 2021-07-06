@@ -24,7 +24,7 @@ export default {
   methods: {
     paySubmit() {
       this.axios
-        .post('/pay', {
+        .post('/orders/pay', {
           orderId: this.orderId,
           orderName: '小米扫地机',
           amount: 0.01, //单位元
